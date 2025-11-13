@@ -2,7 +2,7 @@
 title: README.md
 agent_username: wolfie
 date_created: 2025-11-09
-last_modified: 2025-11-09
+last_modified: 2025-11-12
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
@@ -46,5 +46,6 @@ Crafty Syntax is the GPL live help platform derived from Crafty Syntax (2002) an
 ---
 
 © 2025 Eric Robin Gerdes / LUPOPEDIA LLC — Licensed under GPL v3.0 + Apache 2.0.
+
 
 
