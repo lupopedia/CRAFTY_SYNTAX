@@ -2,7 +2,7 @@
 title: CRAFTY_SYNTAX_CHANGELOG.md
 agent_username: wolfie
 date_created: 2025-11-12
-last_modified: 2025-11-12
+last_modified: 2025-11-14
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION, LEGACY, CHANGELOG]
@@ -18,11 +18,26 @@ The 3.7.x branch that shipped as “Sales Syntax” now returns to the original 
 **License**: GPL v3.0 + Apache 2.0 dual licensing under LUPOPEDIA LLC  
 **Program Scope**: Human operator live help with layered popups, channel routing, canned replies, and visitor tracking.
 
+## VERSION_3_7_5 — 2025-11-14 (Livehelp JS Transparency & Icon Refresh)
+
+### Highlights
+
+- Finalized the “local embeds only” policy from 3.7.x  clarifying that every Crafty Syntax deploy must host its own tracking assets to meet 2025 privacy baselines.
+- Removed the last obfuscated powered-by tag hiding in `livehelp_js.php`; the credit line now appears as a normal HTML anchor so auditors (and operators) can see exactly what ships in the bundle.
+- Added a trailing `csrepeat_()` invocation to `livehelp_js.php` so the floating help icon re-checks operator presence and swaps artwork even after the visitor widget has been idle—most noticeable when the operator drops offline mid-session.
+- Repacked the 3.7.5 ZIP to include the clean powered-by link plus the extra refresh call; anyone who grabbed the first 3.7.4 build on 2025‑11‑12 should download the updated archive dated late 2025‑11‑12 or newer.
+
+### Status
+
+- **Release published**: Distributed as `crafty_syntax-3.7.5.zip`; supersedes the late 3.7.4 refresh so partners have one canonical bundle.
+- **Upgrade guidance**: If you previously patched to the early 3.7.4 ZIP, copy `livehelp_js.php` (and the updated scratchpad copy) from 3.7.5 so embeds honor the privacy+branding changes without a full reinstall.
+
 ## VERSION_3_7_4 — 2025-11-12 (Crafty Syntax Name Restoration)
 
 ### Highlights
 
 - Reissued the 3.7.3 codebase under the restored **Crafty Syntax** brand; binaries now publish as `crafty_syntax-3.7.4.zip`.
+- Packaged artefact lives at `public/craftysyntax-3.7.4.zip` alongside the archived `public/salessyntax-3.7.3.zip`.
 - Updated headers, about boxes, installer copy, and powered-by strings to read “Crafty Syntax 3.7.4 (formerly Sales Syntax 3.7.3).”
 - Refreshed the default login branding: swapped the package logo (`images/logo.png`) and updated `login.php` artwork/labels to show the Crafty Syntax identity.
 - Restored the `2025_modern/operator.jpg` asset that was missing from the 3.7.3 package so the modern theme displays correctly in 3.7.4.

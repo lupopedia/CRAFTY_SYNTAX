@@ -2,7 +2,7 @@
 title: README.md
 agent_username: wolfie
 date_created: 2025-11-09
-last_modified: 2025-11-12
+last_modified: 2025-11-09
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
@@ -19,7 +19,7 @@ Crafty Syntax is the GPL live help platform derived from Crafty Syntax (2002) an
 
 ## RELEASE_STATUS
 
-- **Latest GPL release**: v3.7.4 (2025-11-12) – see http://lupopedia.com/support.php and  [http://lupopedia.com/what_was_craftysyntax.php](http://lupopedia.com/what_was_crafty_syntax.php)
+- **Latest GPL release**: v3.7.3 (2025-11-10) – timezone-offset repair, shared-host security hardening, powered-by link standardisation  
 - **Legacy baseline**: v3.7.0 (2023-11-07) – PHP 8 compatibility sweep (requires patching)  
 - **License**: Dual GPL v3.0 + Apache 2.0 (choose what fits your deployment)
 
@@ -46,6 +46,4 @@ Crafty Syntax is the GPL live help platform derived from Crafty Syntax (2002) an
 ---
 
 © 2025 Eric Robin Gerdes / LUPOPEDIA LLC — Licensed under GPL v3.0 + Apache 2.0.
-
-
 
