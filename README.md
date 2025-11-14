@@ -19,13 +19,13 @@ Crafty Syntax is the GPL live help platform derived from Crafty Syntax (2002) an
 
 ## RELEASE_STATUS
 
-- **Latest GPL release**: v3.7.3 (2025-11-10) – timezone-offset repair, shared-host security hardening, powered-by link standardisation  
+- **Latest GPL release**: v3.7.5 (2025-11-14)   
 - **Legacy baseline**: v3.7.0 (2023-11-07) – PHP 8 compatibility sweep (requires patching)  
 - **License**: Dual GPL v3.0 + Apache 2.0 (choose what fits your deployment)
 
 ## WHAT_IS_INCLUDED
 
-- `public/` – downloadable packages (`craftysyntax-3.7.4.zip` rebrand + legacy `salessyntax-3.7.3.zip`) and the original `README_FILES/` set from the release bundle.  
+- `public/` – downloadable packages (`craftysyntax-3.7.5.zip` rebrand + legacy `salessyntax-3.7.3.zip`) and the original `README_FILES/` set from the release bundle.  
 - `docs/` – changelog summary and upgrade notes for the LUPOPEDIA migration path.  
 - `LICENSE` – dual-license statement matching LUPOPEDIA standards.
 - Crafty Syntax legacy narrative: [https://www.lupopedia.com/what_was_crafty_syntax.php](https://www.lupopedia.com/what_was_crafty_syntax.php) — chronicles the 22-year arc from Crafty Syntax to Sales Syntax to LUPOPEDIA, explaining the “always works” philosophy, layered invite system, and why LUPOPEDIA preserves human-operator-first workflows.
@@ -46,4 +46,5 @@ Crafty Syntax is the GPL live help platform derived from Crafty Syntax (2002) an
 ---
 
 © 2025 Eric Robin Gerdes / LUPOPEDIA LLC — Licensed under GPL v3.0 + Apache 2.0.
+
 
