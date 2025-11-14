@@ -15,7 +15,7 @@ superpositionally: ["FILEID_SALES_SYNTAX_README"]
 
 ## OVERVIEW
 
-Crafty Syntax is the GPL live help platform derived from Crafty Syntax (2002) and now bundled inside LUPOPEDIA as the human-operator-first channel layer. This repository packages the final GPL build (v3.7.2) plus historical documentation so legacy operators have a clear upgrade path.
+Crafty Syntax is the GPL live help platform derived from Crafty Syntax (2002) and now bundled inside LUPOPEDIA as the human-operator-first channel layer. This repository packages the GPL build (v3.7.5) plus historical documentation so legacy operators have a clear upgrade path.
 
 ## RELEASE_STATUS
 
@@ -46,6 +46,7 @@ Crafty Syntax is the GPL live help platform derived from Crafty Syntax (2002) an
 ---
 
 © 2025 Eric Robin Gerdes / LUPOPEDIA LLC — Licensed under GPL v3.0 + Apache 2.0.
+
 
 
 
