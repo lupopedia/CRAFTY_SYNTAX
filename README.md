@@ -2,7 +2,7 @@
 title: README.md
 agent_username: wolfie
 date_created: 2025-11-09
-last_modified: 2025-11-09
+last_modified: 2025-12-26
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
@@ -19,7 +19,7 @@ Crafty Syntax is the GPL live help platform derived from Crafty Syntax (2002) an
 
 ## RELEASE_STATUS
 
-- **Latest GPL release**: v3.7.3 (2025-11-10) – timezone-offset repair, shared-host security hardening, powered-by link standardisation  
+- **Latest GPL release**: v3.7.5 (2025-11-14) – timezone-offset repair, shared-host security hardening, powered-by link standardisation  
 - **Legacy baseline**: v3.7.0 (2023-11-07) – PHP 8 compatibility sweep (requires patching)  
 - **License**: Dual GPL v3.0 + Apache 2.0 (choose what fits your deployment)
 
@@ -32,7 +32,7 @@ Crafty Syntax is the GPL live help platform derived from Crafty Syntax (2002) an
 
 ## GETTING_STARTED
 
-1. Review `CHANGELOG.md` for highlights between 3.7.2 and 3.7.3.  
+1. Review `CHANGELOG.md` for highlights between 3.7.2 and 3.7.5.  
 2. Unzip `public/craftysyntax-3.7.4.zip` into your web root (e.g., `/public/craftysyntax/`). Legacy installs can continue using `public/salessyntax-3.7.3.zip` if they need the original branding.  
 3. Follow `README_FILES/INSTALL.txt` and `README_FILES/UPGRADE.txt` for classic deployment steps.  
 4. If migrating into LUPOPEDIA v0.1.x, read `docs/LUPOPEDIA_UPGRADE_NOTES.md` for PORTUNUS guidance.
@@ -46,4 +46,5 @@ Crafty Syntax is the GPL live help platform derived from Crafty Syntax (2002) an
 ---
 
 © 2025 Eric Robin Gerdes / LUPOPEDIA LLC — Licensed under GPL v3.0 + Apache 2.0.
+
 
