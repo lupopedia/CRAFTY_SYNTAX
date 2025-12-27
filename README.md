@@ -25,15 +25,15 @@ Crafty Syntax is the GPL live help platform derived from Crafty Syntax (2002) an
 
 ## WHAT_IS_INCLUDED
 
-- `public/` – downloadable packages (`craftysyntax-3.7.4.zip` rebrand + legacy `salessyntax-3.7.3.zip`) and the original `README_FILES/` set from the release bundle.  
+- `public/` – downloadable packages (`craftysyntax-3.7.5.zip` rebrand + legacy `salessyntax-3.7.3.zip`) and the original `README_FILES/` set from the release bundle.  
 - `docs/` – changelog summary and upgrade notes for the LUPOPEDIA migration path.  
 - `LICENSE` – dual-license statement matching LUPOPEDIA standards.
-- Crafty Syntax legacy narrative: [https://www.lupopedia.com/what_was_crafty_syntax.php](https://www.lupopedia.com/what_was_crafty_syntax.php) — chronicles the 22-year arc from Crafty Syntax to Sales Syntax to LUPOPEDIA, explaining the “always works” philosophy, layered invite system, and why LUPOPEDIA preserves human-operator-first workflows.
+- Crafty Syntax legacy narrative: [https://www.lupopedia.com/craftysyntax/](https://www.lupopedia.com/craftysyntax/) — chronicles the 22-year arc from Crafty Syntax to Sales Syntax to LUPOPEDIA, explaining the “always works” philosophy, layered invite system, and why LUPOPEDIA preserves human-operator-first workflows.
 
 ## GETTING_STARTED
 
 1. Review `CHANGELOG.md` for highlights between 3.7.2 and 3.7.5.  
-2. Unzip `public/craftysyntax-3.7.4.zip` into your web root (e.g., `/public/craftysyntax/`). Legacy installs can continue using `public/salessyntax-3.7.3.zip` if they need the original branding.  
+2. Unzip `public/craftysyntax-3.7.5.zip` into your web root (e.g., `/public/craftysyntax/`). Legacy installs can continue using `public/salessyntax-3.7.5.zip` if they need the original branding.  
 3. Follow `README_FILES/INSTALL.txt` and `README_FILES/UPGRADE.txt` for classic deployment steps.  
 4. If migrating into LUPOPEDIA v0.1.x, read `docs/LUPOPEDIA_UPGRADE_NOTES.md` for PORTUNUS guidance.
 
@@ -46,5 +46,6 @@ Crafty Syntax is the GPL live help platform derived from Crafty Syntax (2002) an
 ---
 
 © 2025 Eric Robin Gerdes / LUPOPEDIA LLC — Licensed under GPL v3.0 + Apache 2.0.
+
 
 
