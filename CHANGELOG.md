@@ -17,89 +17,125 @@ The 3.7.x branch that shipped as "Sales Syntax" now returns to the original **Cr
 **License**: GPL v3.0 + Apache 2.0 dual licensing under LUPOPEDIA LLC  
 **Program Scope**: Human operator live help with layered popups, channel routing, canned replies, and visitor tracking.
 
-## VERSION_3_8_0_DEV — 2025-12-26 (In Development)
+
+## VERSION_3_8_0_DEV — 2025-12-28 (In Development)
 
 ### Highlights
-- **Database Layer Refactoring**:
-  - Replaced legacy MySQL functions with PDO prepared statements throughout the codebase
-  - Updated functions.php and visitor_common.php to use parameterized queries
-  - Fixed `fetchRow()` and `numrows()` method calls to use PDO's `fetch()` and `rowCount()`
-  - Added proper error handling for database operations
-  - Improved SQL injection protection with parameter binding
-  - Standardized database query patterns across the application
-- **Authentication System**: Completely revamped authentication system with support for multiple providers:
-  - Traditional username/password with secure password hashing
-  - OAuth 2.0 support (Google, with extensible architecture for more providers)
+
+#### Database Layer Refactoring
+- Replaced legacy MySQL functions with PDO prepared statements throughout
+- Updated `functions.php` and `visitor_common.php` to use parameterized queries
+- Fixed `fetchRow()` and `numrows()` calls to use PDO's `fetch()` and `rowCount()`
+- Added proper error handling for database operations
+- Improved SQL injection protection via parameter binding
+- Standardized database query patterns across the application
+
+#### Authentication System Overhaul
+- **Multi-provider support**:
+  - Traditional username/password with secure hashing
+  - OAuth 2.0 (Google, with extensible architecture for more)
   - Passwordless email login with magic links
-  - Configurable authentication methods via admin interface
-- **PHPMailer Integration**: 
-  - Added PHPMailer v7.0.1 for reliable email delivery
-  - Support for SMTP, Sendmail, and mail() transports
-  - Responsive HTML email templates for system notifications
-  - Configurable email settings via environment variables or admin UI
-- **Database Schema Updates**:
-  - Enhanced `livehelp_users` table with OAuth and passwordless login fields
-  - New `auth_providers` table for managing OAuth configurations
-  - Support for email verification and password reset tokens
-  - Login tracking and security logging
-  - **New Ontology System**:
-    - Added `collections` table with hierarchical support via `parent_id`
-    - Added `ontology_items` table with category support (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO)
-    - Added `contents` table for storing content with hierarchical support
-    - Added junction tables: `content_collections` and `content_ontology_items`
-    - Automatic timestamp management via triggers for all tables
-- **Security Enhancements**:
-  - Rate limiting for login attempts
-  - CSRF protection for all forms
-  - Secure session handling
-  - Improved password policies
-  - Two-factor authentication (2FA) support
-- **Admin Interface**:
-  - New authentication settings section
-  - OAuth provider management
-  - Email template customization
-  - Security logs and login history
-- **Developer Experience**:
-  - Updated documentation for new authentication flows
-  - Example implementations for custom authentication providers
-  - Comprehensive logging and debugging support
+  - Configuration: Configurable via admin interface
+- **Security**:
+  - Client secrets encrypted at rest
+  - Passwords optional for OAuth users
+  - Login tracking (timestamps, IPs, counts)
 
-- **UTC Time Support**: Converted all `date()` to `gmdate()` and all `mktime()` to `gmmktime()` for consistent UTC time handling throughout the application.
-- **PDO Database Layer**: Initial implementation of PDO database wrapper with support for both MySQL and PostgreSQL.
-- **Configuration Updates**: Enhanced configuration system to support PDO connections and improved security settings.
-- **Database Migrations**: Added versioned migrations for seamless upgrades from previous versions.
-- **Security Enhancements**: Improved password storage with `password_hash()` and increased password column length to support secure hashing algorithms.
+#### PHPMailer Integration
+- Added PHPMailer v7.0.1 for reliable email delivery
+- Support for SMTP, Sendmail, and mail() transports
+- Responsive HTML email templates for system notifications
+- Configurable email settings via environment variables or admin UI
 
+#### Database Schema Updates
+- **Enhanced `livehelp_users` table**:
+  - Added OAuth and passwordless login fields
+  - `timezone_offset` column (DECIMAL(4,2)) for decimal offsets (e.g., 5.75 for Nepal)
+  - Email verification and password reset token fields
+- **New Authentication Tables**:
+  - `auth_providers` – OAuth configurations
+- **New Ontology System**:
+  - `collections` – hierarchical support via `parent_id`
+  - `ontology_items` – categories (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO)
+  - `contents` – content storage with hierarchical support
+  - Junction tables: `content_collections`, `content_ontology_items`
+- **Event Management**:
+  - `event_entities` – event-specific data
+  - `event_recurrence_rules` – RFC 5545 recurrence rules
+  - `event_occurrences` – pre-computed event dates
+- **Supporting Tables**:
+  - `entity_facets`, `tags`, `content_tags`, `media`, `content_media`
+  - `metadata` – polymorphic key-value storage
+  - `revisions`, `audit_log` – versioning and audit trails
+- **View Created**: `upcoming_events` – shows future events with recurrence info
+
+#### Security Enhancements
+- Rate limiting for login attempts
+- CSRF protection for all forms
+- Secure session handling
+- Improved password policies
+- Two-factor authentication (2FA) support
+- Password storage via `password_hash()` with increased column length (255 chars)
+
+#### Timezone & UTC Handling
+- Converted all `date()` to `gmdate()` and `mktime()` to `gmmktime()`
+- All timestamps stored as `BIGINT UNSIGNED` in UTC format (YYYYMMDDHHMMSS)
+- Avoids timezone confusion in storage
+
+### Database Design Philosophy
+- **No Foreign Keys**: Relationships managed at application level
+- **Soft Deletes**: `is_deleted` + `deleted_at` instead of hard deletes
+- **Orphan Management**: Child records set to `NULL` when parents deleted; periodic cleanup
+- **Full Performance Indexing**: Comprehensive indexes on all relationship columns
+
+### PDO Database Layer
+- Initial implementation of PDO wrapper with MySQL/PostgreSQL support
+- Added `PDO_DB` class for database abstraction
+- Updated database factory to support PDO connections
+
+### Configuration & Migrations
+- Enhanced configuration system for PDO connections and improved security
+- Added versioned migrations for seamless upgrades
+- Backward compatible with existing installations
+
+### Admin Interface
+- New authentication settings section
+- OAuth provider management
+- Email template customization
+- Security logs and login history
+
+### Developer Experience
+- Updated documentation for new authentication flows
+- Example implementations for custom authentication providers
+- Comprehensive logging and debugging support
 
 ### Status
 - **Release status**: In development
 - **Database Changes**: Backward compatible with existing installations
 - **Security**: Improved with secure defaults and PDO prepared statements
+- **Total**: 25 new tables + 1 view + modifications to `livehelp_users`
 
 ### Technical Details
-- Added `PDO_DB` class for database abstraction
-- Updated database factory to support PDO connections
-- Improved error handling and logging
-- Set default timezone to UTC
-- Backward compatible with existing installations
 - Designed for shared hosting with limited database permissions
-- No access to INFORMATION_SCHEMA or system tables required
-- Added support for fractional timezone offsets (e.g., 5.75 for Nepal Time)
-- Secure password storage using `password_hash()` with `PASSWORD_DEFAULT`
+- No access to `INFORMATION_SCHEMA` or system tables required
+- Supports fractional timezone offsets (e.g., 5.75 for Nepal Time)
 - Database migrations support both MySQL and PostgreSQL
 - Schema updates include proper column comments and data types
+- Automatic timestamp management via triggers for all new tables
+- Set default timezone to UTC
 
 > **Note**: For a complete list of planned features and ongoing work, see [TODO_FOR_CRAFTY_SYNTAX_3_8_0.md](TODO_FOR_CRAFTY_SYNTAX_3_8_0.md)
 
 ### Upgrade Notes
 - This is a development build. Production deployments should use v3.7.5 until 3.8.0 stable is released.
-- No breaking changes expected - maintains backward compatibility with 3.7.5 installations.
-- Database changes include:
+- No breaking changes expected – maintains backward compatibility with 3.7.5 installations.
+- **Database changes include**:
   - Increased `password` column length to 255 characters for secure hashing
   - Added `timezone_offset` column (DECIMAL(4,2)) for accurate timezone support
   - Added versioned migrations for smooth upgrades
-- See `README.md` for database requirements and setup instructions.
 - For upgrades from versions before 3.6.1, the system will automatically apply all necessary migrations in the correct order.
+- See `README.md` for database requirements and setup instructions.
+ 
 
 ## VERSION_3_7_5 — 2025-11-14 (Livehelp JS Transparency & Icon Refresh)
 
