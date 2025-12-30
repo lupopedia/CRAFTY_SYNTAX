@@ -18,123 +18,239 @@ The 3.7.x branch that shipped as "Sales Syntax" now returns to the original **Cr
 **Program Scope**: Human operator live help with layered popups, channel routing, canned replies, and visitor tracking.
 
 
-## VERSION_3_8_0_DEV — 2025-12-28 (In Development)
+## VERSION_4_0_0_DEV — 2025-12-30 (In Development)
 
 ### Highlights
 
-#### Database Layer Refactoring
-- Replaced legacy MySQL functions with PDO prepared statements throughout
+#### Major Architecture Rewrite
+- Version bumped from 3.8.0 to **4.0.0** due to extensive refactoring and modernization
+- Legacy Crafty Syntax subsystems replaced with modern, modular components
+- Database schema normalized across all tables
+- UTF‑8 and emoji‑native support across the entire application
+- Legacy tables preserved only for historical reference with clear deprecation markers
+
+---
+
+### Database Layer Refactoring
+- Replaced all legacy MySQL functions with **PDO prepared statements**
 - Updated `functions.php` and `visitor_common.php` to use parameterized queries
-- Fixed `fetchRow()` and `numrows()` calls to use PDO's `fetch()` and `rowCount()`
-- Added proper error handling for database operations
-- Improved SQL injection protection via parameter binding
-- Standardized database query patterns across the application
+- Replaced `fetchRow()` and `numrows()` with PDO equivalents (`fetch()`, `rowCount()`)
+- Standardized query patterns and added consistent error handling
+- Improved SQL injection protection via strict parameter binding
+- Added unified database abstraction layer for MySQL/PostgreSQL
 
-#### Authentication System Overhaul
-- **Multi-provider support**:
-  - Traditional username/password with secure hashing
-  - OAuth 2.0 (Google, with extensible architecture for more)
-  - Passwordless email login with magic links
-  - Configuration: Configurable via admin interface
-- **Security**:
-  - Client secrets encrypted at rest
-  - Passwords optional for OAuth users
-  - Login tracking (timestamps, IPs, counts)
+---
 
-#### PHPMailer Integration
-- Added PHPMailer v7.0.1 for reliable email delivery
-- Support for SMTP, Sendmail, and mail() transports
-- Responsive HTML email templates for system notifications
-- Configurable email settings via environment variables or admin UI
+### Authentication System Overhaul
+- **Multi-provider authentication**:
+  - Username/password with secure hashing
+  - OAuth 2.0 (Google; extensible for more providers)
+  - Passwordless email login (magic links)
+- **Security Enhancements**:
+  - Encrypted client secrets
+  - Optional passwords for OAuth users
+  - Login tracking: timestamps, IPs, counters
+  - Two-factor authentication (2FA) support
 
-#### Database Schema Updates
-- **Enhanced `livehelp_users` table**:
-  - Added OAuth and passwordless login fields
-  - `timezone_offset` column (DECIMAL(4,2)) for decimal offsets (e.g., 5.75 for Nepal)
-  - Email verification and password reset token fields
-- **New Authentication Tables**:
-  - `auth_providers` – OAuth configurations
-- **New Ontology System**:
-  - `collections` – hierarchical support via `parent_id`
-  - `ontology_items` – categories (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO)
-  - `contents` – content storage with hierarchical support
-  - Junction tables: `content_collections`, `content_ontology_items`
-- **Event Management**:
-  - `event_entities` – event-specific data
-  - `event_recurrence_rules` – RFC 5545 recurrence rules
-  - `event_occurrences` – pre-computed event dates
-- **Supporting Tables**:
-  - `entity_facets`, `tags`, `content_tags`, `media`, `content_media`
-  - `metadata` – polymorphic key-value storage
-  - `revisions`, `audit_log` – versioning and audit trails
-- **View Created**: `upcoming_events` – shows future events with recurrence info
+---
 
-#### Security Enhancements
+### PHPMailer Integration
+- Added PHPMailer v7.0.1
+- SMTP, Sendmail, and mail() support
+- Responsive HTML email templates
+- Configurable email settings via admin UI or environment variables
+
+---
+
+### Database Schema Updates
+
+#### Modernized & Normalized Tables
+- **livehelp_sessions** fully rewritten:
+  - SHA‑256 session tokens (`CHAR(64)`)
+  - `created_at`, `last_seen`, `expires_at` (UTC BIGINT)
+  - `ip_address`, `user_agent`, `is_valid`
+  - Restored `session_data` (now `MEDIUMTEXT`) for backward compatibility
+- **livehelp_smilies** rebuilt:
+  - Dropped legacy GIF-based smilies
+  - New emoji-native table using Unicode code points (`U+1F642`) and HTML entities (`&#x1F642;`)
+  - Removed dangerous ASCII substitution codes
+- **Referer & Visit Tracking Tables Modernized**:
+  - `livehelp_referers_daily`
+  - `livehelp_referers_monthly`
+  - `livehelp_visits_daily`
+  - `livehelp_visits_monthly`
+  - `livehelp_visit_track`
+  - All upgraded with:
+    - BIGINT primary keys
+    - Normalized column names
+    - `created_utc`, `updated_utc`, `is_deleted`, `deleted_at`
+    - InnoDB + utf8mb4 conversion
+- **Legacy Tables Marked as Deprecated**:
+  - `livehelp_users` → replaced by:
+    - `auth_users`
+    - `auth_user_prefs`
+    - `livehelp_sessions`
+    - `livehelp_operators`
+    - `livehelp_visitors`
+  - `livehelp_websites` → replaced by `livehelp_domains`
+  - Added table-level comments indicating deprecation and archival status
+
+#### New Authentication Tables
+- `auth_providers` – OAuth provider configurations
+
+### New Content & Navigation System (Replaces legacy ontology section)
+
+4.0.0 introduces a fully modern, flexible content architecture designed for
+multi‑type content, user‑defined navigation, semantic tagging, and AI‑aware
+contextual assistance.
+
+This system replaces the older ontology prototype and provides a unified,
+future‑proof foundation for all structured content inside Crafty Syntax.
+
+#### Core Features
+
+##### 1. Multi‑Type Content System
+- Supports multiple content types (text, media, folders, collections, etc.)
+- Polymorphic relationships allow any entity to be tagged, categorized, or
+  assigned contextual metadata
+- Designed for extensibility and future content types
+
+##### 2. User‑Defined Navigation (Collections & Tabs)
+- Users can create **multiple collections**, each with **multiple tabs**
+- Tabs can represent:
+  - content groups
+  - navigation sections
+  - semantic clusters
+  - user‑defined workflows
+- Collections support hierarchical organization
+
+##### 3. Context‑Aware AI Instruction System
+- **livehelp_contexts** define semantic domains (e.g., “coding”, “broadcasting”)
+- **livehelp_context_cards** store short (≤280 char) instructional hints for AI
+  to understand how content should be interpreted
+- Context cards can be attached to any entity via polymorphic mapping
+- Enables fine‑grained AI behavior tuning per content item
+
+##### 4. Semantic Tagging System
+- **livehelp_tags** store tag names scoped to a specific context
+  - Tag names are unique *within* a context, not globally
+- **livehelp_tag_map** provides polymorphic tag → entity mapping
+- **livehelp_context_cards_tags** provides hierarchical tags for context cards
+- **livehelp_entity_tags** links tags to:
+  - content
+  - folders
+  - collections
+  - other tags
+  - future entity types
+
+##### 5. Polymorphic Metadata & Properties
+- All tag mappings support JSON `properties` for custom metadata
+- Enables Edge‑specific metadata, UI hints, or AI‑specific attributes
+
+#### New Tables Introduced
+- `livehelp_contexts` — semantic domains
+- `livehelp_tags` — tags scoped to contexts
+- `livehelp_tag_map` — polymorphic tag mapping
+- `livehelp_context_cards` — short AI instruction cards
+- `livehelp_context_cards_tags` — hierarchical tags for context cards
+- `livehelp_entity_tags` — polymorphic entity tagging system
+
+#### Benefits
+- Unified content model across the entire system
+- Flexible navigation and organization for end users
+- AI‑ready metadata and context injection
+- Extensible tagging and classification
+- Clean separation of content, navigation, and semantics
+- Future‑proof foundation for 4.x and beyond
+
+
+#### Views
+- `upcoming_events` – future events with recurrence expansion
+
+---
+
+### Security Enhancements
+- Added `X-Frame-Options: SAMEORIGIN` to admin pages
+- Added `Content-Security-Policy: frame-ancestors 'self'`
 - Rate limiting for login attempts
 - CSRF protection for all forms
 - Secure session handling
 - Improved password policies
-- Two-factor authentication (2FA) support
-- Password storage via `password_hash()` with increased column length (255 chars)
+- Password hashing via `password_hash()` (255-char column)
 
-#### Timezone & UTC Handling
-- Converted all `date()` to `gmdate()` and `mktime()` to `gmmktime()`
-- All timestamps stored as `BIGINT UNSIGNED` in UTC format (YYYYMMDDHHMMSS)
-- Avoids timezone confusion in storage
+---
+
+### Timezone & UTC Handling
+- Replaced all `date()` with `gmdate()`
+- Replaced all `mktime()` with `gmmktime()`
+- All timestamps stored as UTC BIGINT (YYYYMMDDHHMMSS)
+- Eliminates timezone inconsistencies
+
+---
 
 ### Database Design Philosophy
-- **No Foreign Keys**: Relationships managed at application level
-- **Soft Deletes**: `is_deleted` + `deleted_at` instead of hard deletes
-- **Orphan Management**: Child records set to `NULL` when parents deleted; periodic cleanup
-- **Full Performance Indexing**: Comprehensive indexes on all relationship columns
+- **No Foreign Keys** (application-level integrity)
+- **Soft Deletes** (`is_deleted`, `deleted_at`)
+- **Orphan Management** (NULL on delete + periodic cleanup)
+- **Full Performance Indexing** on relationship columns
+
+---
 
 ### PDO Database Layer
-- Initial implementation of PDO wrapper with MySQL/PostgreSQL support
-- Added `PDO_DB` class for database abstraction
-- Updated database factory to support PDO connections
+- New `PDO_DB` abstraction class
+- Database factory updated for PDO
+- MySQL and PostgreSQL supported
+
+---
 
 ### Configuration & Migrations
-- Enhanced configuration system for PDO connections and improved security
-- Added versioned migrations for seamless upgrades
+- Enhanced configuration system
+- Versioned migrations for seamless upgrades
 - Backward compatible with existing installations
 
+---
+
 ### Admin Interface
-- New authentication settings section
+- New authentication settings panel
 - OAuth provider management
 - Email template customization
 - Security logs and login history
 
+---
+
 ### Developer Experience
 - Updated documentation for new authentication flows
-- Example implementations for custom authentication providers
-- Comprehensive logging and debugging support
+- Examples for custom auth providers
+- Comprehensive logging and debugging tools
+
+---
 
 ### Status
 - **Release status**: In development
-- **Database Changes**: Backward compatible with existing installations
-- **Security**: Improved with secure defaults and PDO prepared statements
-- **Total**: 25 new tables + 1 view + modifications to `livehelp_users`
+- **Database Changes**: Backward compatible with existing installs
+- **Security**: Stronger defaults, modern crypto
+- **Total**: 25 new tables + 1 view + extensive modifications
+
+---
 
 ### Technical Details
-- Designed for shared hosting with limited database permissions
-- No access to `INFORMATION_SCHEMA` or system tables required
-- Supports fractional timezone offsets (e.g., 5.75 for Nepal Time)
-- Database migrations support both MySQL and PostgreSQL
-- Schema updates include proper column comments and data types
-- Automatic timestamp management via triggers for all new tables
-- Set default timezone to UTC
+- Designed for shared hosting with limited DB permissions
+- No reliance on `INFORMATION_SCHEMA`
+- Supports fractional timezone offsets (e.g., 5.75)
+- Automatic timestamp triggers for new tables
+- Default timezone: UTC
 
-> **Note**: For a complete list of planned features and ongoing work, see [TODO_FOR_CRAFTY_SYNTAX_3_8_0.md](TODO_FOR_CRAFTY_SYNTAX_3_8_0.md)
+---
 
 ### Upgrade Notes
-- This is a development build. Production deployments should use v3.7.5 until 3.8.0 stable is released.
-- No breaking changes expected – maintains backward compatibility with 3.7.5 installations.
-- **Database changes include**:
-  - Increased `password` column length to 255 characters for secure hashing
-  - Added `timezone_offset` column (DECIMAL(4,2)) for accurate timezone support
-  - Added versioned migrations for smooth upgrades
-- For upgrades from versions before 3.6.1, the system will automatically apply all necessary migrations in the correct order.
-- See `README.md` for database requirements and setup instructions.
+- Production should remain on v3.7.5 until 4.0.0 stable
+- Database changes include:
+  - 255-char password column
+  - `timezone_offset` DECIMAL(4,2)
+  - Versioned migrations
+- Upgrades from <3.6.1 automatically apply all required migrations
+- See `README.md` for requirements and setup instructions
+
  
 
 ## VERSION_3_7_5 — 2025-11-14 (Livehelp JS Transparency & Icon Refresh)
